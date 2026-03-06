@@ -84,7 +84,6 @@ jobs:
     needs: code-quality
     runs-on: macos-latest
     timeout-minutes: 30
-    # Continuing despite emulator issues so it doesn't block the whole pipeline status
     continue-on-error: true 
     steps:
       - name: Checkout code
@@ -100,12 +99,13 @@ jobs:
       - name: Run instrumented tests
         uses: reactivecircus/android-emulator-runner@v2
         with:
-          api-level: 29
-          target: google_apis
-          arch: x86_64
+          api-level: 27
+          target: default
+          arch: x86
           profile: Nexus 6
+          force-avd-creation: true
           disable-animations: true
-          emulator-options: -no-window -gpu swiftshader_indirect -no-snapshot -noaudio -no-boot-anim
+          emulator-options: -no-window -no-snapshot -noaudio -no-boot-anim
           script: ./gradlew connectedDebugAndroidTest
 
       - name: Upload test results
