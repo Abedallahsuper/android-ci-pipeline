@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">عيادتي</string>
+    <string name="clinic_app">عيادتي</string>
 
     <string name="username">اسم المستخدم</string>
     <string name="email">البريد الإلكتروني</string>
