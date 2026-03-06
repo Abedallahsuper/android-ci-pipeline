@@ -49,13 +49,12 @@ tasks.withType(io.gitlab.arturbosch.detekt.Detekt).configureEach {
     reports {
         html.required.set(true)
         xml.required.set(true)
-        txt.required.set(false)
-        sarif.required.set(false)
-        md.required.set(false)
     }
 }
 
-task jacocoTestReport(type: JacocoReport, dependsOn: ['testDebugUnitTest', 'createDebugCoverageReport']) {
+task jacocoTestReport(type: JacocoReport) {
+    dependsOn 'testDebugUnitTest'
+    
     reports {
         xml.required = true
         html.required = true
@@ -69,37 +68,27 @@ task jacocoTestReport(type: JacocoReport, dependsOn: ['testDebugUnitTest', 'crea
     classDirectories.setFrom(files([debugTree]))
     executionData.setFrom(fileTree(dir: "$buildDir", include: [
             "jacoco/testDebugUnitTest.exec",
-            "outputs/unit_test_code_coverage/debugUnitTest/testDebugUnitTest.exec",
-            "outputs/code_coverage/debugAndroidTest/connected/*/coverage.ec"
+            "outputs/unit_test_code_coverage/debugUnitTest/testDebugUnitTest.exec"
     ]))
 }
 
 dependencies {
-    // AndroidX & Material
     implementation 'androidx.core:core:1.12.0'
     implementation 'androidx.appcompat:appcompat:1.7.0'
     implementation 'com.google.android.material:material:1.12.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.2.0'
 
-    // Lifecycle (ViewModel + LiveData)
     implementation 'androidx.lifecycle:lifecycle-viewmodel:2.6.1'
     implementation 'androidx.lifecycle:lifecycle-livedata:2.6.1'
     implementation 'androidx.lifecycle:lifecycle-runtime:2.6.1'
 
-    // Room components
     implementation "androidx.room:room-runtime:$rootProject.roomVersion"
     annotationProcessor "androidx.room:room-compiler:$rootProject.roomVersion"
     androidTestImplementation "androidx.room:room-testing:$rootProject.roomVersion"
 
-    // Unit Testing
     testImplementation 'junit:junit:4.13.2'
-    // UI
-    implementation "androidx.constraintlayout:constraintlayout:$rootProject.constraintLayoutVersion"
-    implementation "com.google.android.material:material:$rootProject.materialVersion"
-    // Android Instrumented Tests
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
-// Glide for image loading
     implementation 'com.github.bumptech.glide:glide:4.15.1'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.15.1'
 }
